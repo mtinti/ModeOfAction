@@ -158,6 +158,6 @@ macs2 callpeak -t $path_out$base_fastq'.sorted.bam' -f BAMPE --min-length 10000 
 
 
 echo 'run 15'
-multiqc '{experiment}' -o '{experiment}'
+multiqc '{experiment}/data/{base_fastq}' '{experiment}/macs2' -o '{experiment}'
 
 
