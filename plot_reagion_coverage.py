@@ -45,7 +45,7 @@ def add_track(bed_file = str, chro = str,
     test.plot(x='base', y='coverage', ax=ax, label=label, c=color)
     return test.base.min(), test.base.max()
 
-def plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, end, save_to):
+def plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, end, save_to, counts):
 
     f = plt.figure(figsize=(16,6))
     gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
@@ -86,6 +86,7 @@ def plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, 
 
 
     for gene in region.index.values:
+        gid = region.loc[gene].id
         gstart = region.loc[gene].start
         gend = region.loc[gene].end
         ax2.add_patch(Rectangle((gstart, 0), width=gend-gstart, height=0.1))
@@ -93,7 +94,7 @@ def plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, 
     texts = [ax2.text(region.loc[i].start, 
                            0.1,
                            region.loc[i]['id'])
-                           for i in region.index.values]  
+                           for i in region.index.values if region.loc[i].id in counts.index ]  
 
     x= np.arange(start, end, 100) 
     y=[0.2 for n in x]
@@ -104,7 +105,7 @@ def plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, 
     ax.set_title(title)
     plt.savefig(save_to+title+'.png')
     
-if __name__ == -__main__':
+if __name__ == '__main__':
 
     gff = sys.argv[1]
     gff = gff_to_pandas(gff)
@@ -113,6 +114,10 @@ if __name__ == -__main__':
     peaks = pd.read_table(sys.argv[2], sep='\t', comment='#')
     peaks = peaks.sort_values('pileup', ascending=False)
 
+    counts = pd.read_table(sys.argv[9], sep='\t', index_col=[0])
+    counts = counts[counts[counts.columns[0]]>0]
+    counts = counts[counts[counts.columns[0]] >counts[counts.columns[0]].mean() + counts[counts.columns[0]].std()]
+    
     coverage_file = sys.argv[3]
     ff_file = sys.argv[4]
     fr_file = sys.argv[5]
@@ -120,7 +125,7 @@ if __name__ == -__main__':
     rr_file = sys.argv[7]
     save_to = sys.argv[8]
     for peak in peaks.index.values[0:3]:
-        chro = df.loc[peak]['chr']
-        start = df.loc[peak]['start']
-        end = df.loc[peak]['end']
-        plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, end, save_to)
+        chro = peaks.loc[peak]['chr']
+        start = peaks.loc[peak]['start']
+        end = peaks.loc[peak]['end']
+        plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, end, save_to, counts)
