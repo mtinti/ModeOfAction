@@ -156,7 +156,7 @@ rm $path_out'unmap/'$base_fastq'.sorted_unmap_1.fastq'
 rm $path_out'unmap/'$base_fastq'.sorted_unmap_2.fastq'
 
 echo 'run 16'
-mkdir '{experiment}/macs2'
+mkdir '{experiment}/macs2_'$base_fastq
 macs2 callpeak -t $path_out$base_fastq'.sorted.bam' -f BAMPE --min-length 10000 --max-gap 5000 -q 0.01 --broad --outdir '{experiment}/macs2_'$base_fastq
 
 echo 'run 15'
