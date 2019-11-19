@@ -45,7 +45,7 @@ def add_track(bed_file = str, chro = str,
     test.plot(x='base', y='coverage', ax=ax, label=label, c=color)
     return test.base.min(), test.base.max()
 
-def plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, end, save_to, counts):
+def plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, end, save_to, counts, peak_index):
 
     f = plt.figure(figsize=(16,6))
     gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
@@ -101,10 +101,11 @@ def plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, 
     ax2.scatter(x, y,alpha=0)
     ax2.set_ylim(0,1)
     adjust_text(texts, arrowprops=dict(arrowstyle='->', color='red'), ax=ax2)
-    title = '{chro}:{start}-{end}'.format(chro=chro,start=start,end=end)
+    title = 'peak {peak_index} loc: {chro}:{start}-{end}'.format(chro=chro,start=start,end=end,peak_index=peak_index)
     ax.set_title(title)
     plt.savefig(save_to+title+'.png')
     
+
 if __name__ == '__main__':
 
     gff = sys.argv[1]
@@ -124,8 +125,8 @@ if __name__ == '__main__':
     rf_file = sys.argv[6]
     rr_file = sys.argv[7]
     save_to = sys.argv[8]
-    for peak in peaks.index.values[0:3]:
+    for peak_index, peak in enumerate(peaks.index.values[0:3]):
         chro = peaks.loc[peak]['chr']
         start = peaks.loc[peak]['start']
         end = peaks.loc[peak]['end']
-        plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, end, save_to, counts)
+        plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, end, save_to, counts, peak_index+1)

@@ -163,9 +163,9 @@ echo 'run 15'
 multiqc '{experiment}/data/{base_fastq}' '{experiment}/macs2' -o '{experiment}/multi_qc_'$base_fastq
 
 python plot_reagion_coverage.py $gff_file '{experiment}/macs2_'$base_fastq'/NA_peaks.xls' \
-$path_out$base_fastq'_coverage_d.bed' $path_out$base_fastq'ff_barcode_coverage_bg.bed' \
-$path_out$base_fastq'fr_barcode_coverage_bg.bed' $path_out$base_fastq'rf_barcode_coverage_bg.bed' \
-$path_out$base_fastq'rr_barcode_coverage_bg.bed' '{experiment}/'$base_fastq
+$path_out$base_fastq'_coverage_d.bed' $path_out$base_fastq'ff_barcode_coverage_d.bed' \
+$path_out$base_fastq'fr_barcode_coverage_d.bed' $path_out$base_fastq'rf_barcode_coverage_d.bed' \
+$path_out$base_fastq'rr_barcode_coverage_d.bed' '{experiment}/'$base_fastq '{experiment}/'$base_fastq'count.txt'
 
 
 
