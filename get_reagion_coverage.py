@@ -108,7 +108,7 @@ def plot_region(coverage_file, ff_file, fr_file, rf_file, rr_file, chro, start, 
     ax2.scatter(x, y,alpha=0)
     ax2.set_ylim(0,1)
     adjust_text(texts, arrowprops=dict(arrowstyle='->', color='red'), ax=ax2)
-    title = 'peak {peak_index} loc: {chro}:{start}-{end}'.format(chro=chro,start=start,end=end,peak_index=peak_index)
+    title = 'peak_{peak_index}_{chro}_{start}_{end}'.format(chro=chro,start=start,end=end,peak_index=peak_index)
     ax.set_title(title)
     plt.savefig(save_to+title+'.png')
 

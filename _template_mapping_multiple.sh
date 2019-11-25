@@ -160,7 +160,7 @@ mkdir '{experiment}/macs2_'$base_fastq
 macs2 callpeak -t $path_out$base_fastq'.sorted.bam' -f BAMPE --min-length 10000 --max-gap 5000 -q 0.01 --broad --outdir '{experiment}/macs2_'$base_fastq
 
 echo 'run 15'
-multiqc '{experiment}/data/{base_fastq}' '{experiment}/macs2' -o '{experiment}/multi_qc_'$base_fastq
+multiqc '{experiment}/data/{base_fastq}' '{experiment}/macs2_{base_fastq}' -o '{experiment}/multi_qc_'$base_fastq
 
 python get_reagion_coverage.py $gff_file '{experiment}/macs2_'$base_fastq'/NA_peaks.xls' \
 $path_out$base_fastq'_coverage_d.bed' $path_out$base_fastq'ff_barcode_coverage_d.bed' \
